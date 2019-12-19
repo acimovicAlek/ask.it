@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const morgan = require("morgan");
+//const morgan = require("morgan");
 const mongoose = require("mongoose");
 
 const userRouter = require("./api/routes/user");
@@ -16,7 +16,7 @@ mongoose.Promise = global.Promise;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(morgan("combined"));
+//app.use(morgan("combined"));
 
 //Set cors
 app.use((req, res, next) => {
