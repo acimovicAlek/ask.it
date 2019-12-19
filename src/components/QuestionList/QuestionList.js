@@ -68,7 +68,7 @@ class QuestionList extends Component {
           Load more...
         </Button>
         <Modal open={this.state.modal} onClose={this.handleClose}>
-          <AddQuestion />
+          <AddQuestion onClose={this.handleClose}/>
         </Modal>
       </Container>
     );
