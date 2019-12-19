@@ -5,16 +5,37 @@ import {
   Typography,
   TextField,
   Button,
-  Avatar,
+  Avatar
 } from "@material-ui/core";
 import { LockOutlined } from "@material-ui/icons";
+import { connect } from "react-redux";
+
+import { login } from "../../actions/userActions";
 
 import "./login.css";
 
-export default class Login extends Component {
+class Login extends Component {
+  state = {
+    username: "",
+    password: ""
+  };
+
   constructor(props) {
     super(props);
   }
+
+  handleOnChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleOnSubmit = event => {
+    event.preventDefault();
+
+    const response = this.props.login({
+      username: this.state.username,
+      password: this.state.password
+    });
+  };
 
   render() {
     return (
@@ -27,7 +48,7 @@ export default class Login extends Component {
           <Typography component="h1" variant="h5">
             Login
           </Typography>
-          <form className="form" noValidate>
+          <form className="form" noValidate onSubmit={this.handleOnSubmit}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -38,6 +59,8 @@ export default class Login extends Component {
               name="username"
               autoComplete="username"
               autoFocus
+              value={this.state.username}
+              onChange={this.handleOnChange}
             />
             <TextField
               variant="outlined"
@@ -49,6 +72,8 @@ export default class Login extends Component {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={this.state.password}
+              onChange={this.handleOnChange}
             />
             <Button
               type="submit"
@@ -65,3 +90,13 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    login: credentials => {
+      dispatch(login(credentials));
+    }
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Login);

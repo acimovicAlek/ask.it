@@ -7,6 +7,10 @@ const questionSchema = mongoose.Schema({
     ref: "user",
     required: true
   },
+  title:{
+    type: String,
+    required: true
+  },
   question: {
     type: String,
     required: true
@@ -71,4 +75,4 @@ questionSchema.methods.toggleUpVote = function upVote(userId) {
   this.numberOfUpVotes++;
 };
 
-module.exports = mongoose.model("questinon", questionSchema);
+module.exports = mongoose.model("question", questionSchema);

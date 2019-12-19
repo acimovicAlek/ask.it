@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-const auth = require("../middlewares/auth");
+const authorization = require("../middlewares/authorization");
 const answerController = require("../controllers/answer");
-const identity = require("../middlewares/indentity");
+const authentication = require("../middlewares/authenticate");
 
-router.post('/', auth, answerController.createAnswer);
-router.get('/:questionId', identity, answerController.getAnswerPage);
-router.put('/:id', auth, answerController.vote);
+router.post('/', authorization, answerController.createAnswer);
+router.get('/:questionId', authentication, answerController.getAnswerPage);
+router.put('/:id', authorization, answerController.vote);
 
 module.exports = router;

@@ -5,8 +5,8 @@ const createQuestion = (req, res, next) => {
   questionRepository
     .createQuestion(req.userData.id, req.body)
     .then(question => {
+      console.log(req.userData);
       userRepository
-        .incrementAnswer(req.userData.id)
         .then(res.status(201).json(question))
         .catch(error => res.status(error.status || 500).json({ error }));
     })
@@ -21,10 +21,24 @@ const getQuestionById = (req, res, next) => {
 };
 
 const getPage = (req, res, next) => {
-  const page = req.query.page || 1;
-  questionRepository
-    .getPage(page, req.userData.id)
-    .then(page => res.json(page))
+  const pageNumber = req.query.page || 1;
+  questionRepository  
+    .getPage(pageNumber, req.userData.id)
+    .then(page => res.json({
+        pageNumber,
+        questions: page 
+    }))
+    .catch(error => res.status(error.status || 500).json({ error }));
+};
+
+const getMyQuestionsPage = (req, res, next) => {
+  const pageNumber = req.query.page || 1;
+  questionRepository  
+    .getMyQuestionsPage(pageNumber, req.userData.id)
+    .then(page => res.json({
+        pageNumber: pageNumber,
+        questions: page 
+    }))
     .catch(error => res.status(error.status || 500).json({ error }));
 };
 
@@ -51,5 +65,6 @@ module.exports = {
   getQuestionById,
   getPage,
   vote,
-  getHot
+  getHot,
+  getMyQuestionsPage
 };

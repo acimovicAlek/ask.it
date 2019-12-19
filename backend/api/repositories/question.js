@@ -8,7 +8,8 @@ const createQuestion = (userId, question) => {
     const newQuestion = new Question({
       _id: mongoose.Types.ObjectId(),
       user: userId,
-      question: question.question
+      question: question.question,
+      title: question.title
     });
     newQuestion
       .save()
@@ -46,7 +47,30 @@ const getQuestion = (id, userId) => {
 const getPage = (page, userId) => {
   return new Promise((resolve, reject) => {
     Question.find()
-      .sort({ created: "asc" })
+      .sort({ created: "desc" })
+      .skip((page - 1) * 20)
+      .limit(20)
+      .populate("user", "-password")
+      .exec()
+      .then(results => {
+        results = results.map(question => {
+          return {
+            ...question._doc,
+            vote: userId ? question.voted(userId) : 0,
+            upVotes: undefined,
+            downVotes: undefined
+          };
+        });
+        resolve(results);
+      })
+      .catch(err => reject(err));
+  });
+};
+
+const getMyQuestionsPage = (page, userId) => {
+  return new Promise((resolve, reject) => {
+    Question.find({user:userId})
+      .sort({ created: "desc" })
       .skip((page - 1) * 20)
       .limit(20)
       .populate("user", "-password")
@@ -87,7 +111,7 @@ const getHot = (page, userId) => {
   return new Promise((resolve, reject) => {
     Question.find()
       .sort({ numberOfUpVotes: "asc", numberOfDownVotes:"desc" })
-      .select("_id question user numberOfUpVotes numberOfDownVotes")
+      .select("_id title question user numberOfUpVotes numberOfDownVotes")
       .populate("user", "-passowrd")
       .skip((page - 1) * 20)
       .limit(20)
@@ -102,5 +126,6 @@ module.exports = {
   getQuestion,
   getPage,
   vote,
-  getHot
+  getHot,
+  getMyQuestionsPage
 };

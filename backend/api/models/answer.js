@@ -46,13 +46,13 @@ const answerSchema = mongoose.Schema({
   ]
 });
 
-questionSchema.methods.voted = function voted(userId) {
+answerSchema.methods.voted = function voted(userId) {
   if (this.upVotes.includes(userId)) return 1;
   else if (this.downVotes.includes(userId)) return -1;
   return 0;
 };
 
-questionSchema.methods.toggleDownVote = function downVote(userId) {
+answerSchema.methods.toggleDownVote = function downVote(userId) {
   if (this.upVotes.includes(userId)) {
     this.upVotes.splice(this.upVotes.indexOf(userId), 1);
     this.numberOfUpVotes--;
@@ -64,7 +64,7 @@ questionSchema.methods.toggleDownVote = function downVote(userId) {
   this.numberOfDownVotes++;
 };
 
-questionSchema.methods.toggleUpVote = function upVote(userId) {
+answerSchema.methods.toggleUpVote = function upVote(userId) {
   if (this.upVotes.includes(userId)) {
     this.upVotes.splice(this.upVotes.indexOf(userId), 1);
     this.numberOfUpVotes--;

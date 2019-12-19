@@ -14,10 +14,17 @@ const createAnswer = (req, res, next) => {
 };
 
 const getAnswerPage = (req, res, next) => {
-  const page = req.query.page || 1;
+  const pageNumber = req.query.page || 1;
+  console.log(pageNumber, req.params.questionId ,req.userData.id);
   answerRepository
-    .getPage(page, req.params.questionId ,req.userData.id)
-    .then(page => res.json(page))
+    .getAnswerPage(pageNumber, req.params.questionId ,req.userData.id)
+    .then(page => {
+      res.json({
+        questionId: req.params.questionId,
+        pageNumber,
+        answers: page
+      })
+    })
     .catch(error => res.status(error.status || 500).json({ error }));
 };
 
@@ -32,6 +39,6 @@ const vote = (req, res, next) => {
 
 module.exports = {
   createAnswer,
-  getPage,
+  getAnswerPage,
   vote
 };

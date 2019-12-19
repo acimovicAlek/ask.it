@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const Answer = require("../models/answer");
 const User = require("../models/user");
+const question = require("../models/question");
 
 const createAnswer = (userId, answer) => {
   return new Promise((resolve, reject) => {
@@ -13,7 +14,12 @@ const createAnswer = (userId, answer) => {
     });
     newAnswer
       .save()
-      .then(result => resolve(result))
+      .then(result => {
+        result
+          .populate("user", "-password")
+          .execPopulate()
+          .then(populated => resolve(populated)); 
+      })
       .catch(err => reject(err));
   });
 };

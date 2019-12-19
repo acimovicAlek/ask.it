@@ -61,11 +61,11 @@ const checkCredentials = credentials => {
 };
 
 const getTopUsers = () => {
-  return new Promise((resolve, reject) => { 
+  return new Promise((resolve, reject) => {
     User.find()
-      .sort("numberOfAnswers")
+      .sort({ numberOfAnswers: "desc" })
       .limit(10)
-      .select("username")
+      .select("username numberOfAnswers")
       .exec()
       .then(result => resolve(result))
       .catch(err => reject(error));
@@ -84,10 +84,19 @@ const getById = id => {
 
 const updateUser = (id, body) => {
   return new Promise((resolve, reject) => {
-    User.findOneAndUpdate({ _id: id }, { $set: body })
+    User.findById(id)
       .exec()
-      .then(result => resolve(result))
-      .catch(err => reject(err));
+      .then(user => {
+        bcrypt.compare(user.password, body.password, (result, error) => {
+          if (error || !result) resolve(false);
+          bcrypt.hash(body.newPassword, 10, (err, hash) => {
+            User.findByIdAndUpdate(id, { password: hash })
+              .exec()
+              .then(() => resolve(true))
+              .catch(err => reject(err));
+          });
+        });
+      });
   });
 };
 

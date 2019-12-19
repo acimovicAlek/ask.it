@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const userRepository = require("../repositories/user");
+const env = require("../../env");
 
 const register = (req, res, next) => {
   userRepository
@@ -24,13 +25,12 @@ const login = (req, res, next) => {
         res.status(401).body({
           message: "Auth failed."
         });
-        console.log(process.env.JWT_KEY);
       const token = jwt.sign(
         {
           username: user.username,
           id: user._id
         },
-        process.env.JWT_KEY,
+        env.JWT_KEY,
         {
           expiresIn: "1h"
         }
@@ -68,20 +68,19 @@ const getUser = (req, res, next) => {
 };
 
 const updateUser = (req, res, next) => {
-  if (req.userData.id !== req.params.id) return res.status(401).json({});
   userRepository
-    .updateUser(req.params.id, req.body)
+    .updateUser(req.userData.id, req.body)
     .then(user => {
       if (!user)
-        res.status(404).json({
-          message: "User doesn't exist"
+        res.status(409).json({
+          message: "User is not updated."
         });
 
       res.json({
         message: "User updated."
       });
     })
-    .catch(error => res.status(error.status || 500).json({error}));
+    .catch(error => {console.log(error);res.status(error.status || 500).json(error);});
 };
 
 module.exports = {

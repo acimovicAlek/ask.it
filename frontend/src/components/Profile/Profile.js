@@ -1,24 +1,24 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
   Container,
   CssBaseline,
+  Avatar,
   Typography,
   TextField,
-  Button,
-  Avatar
+  Button
 } from "@material-ui/core";
-import { PersonAddOutlined } from "@material-ui/icons";
-import { connect } from "react-redux";
+import { PersonOutlined } from "@material-ui/icons";
 
-import { registerUser } from "../../actions/userActions";
+import { resetPassword } from "../../actions/userActions";
 
-import "./registration.css";
+import "./profile.css";
 
-class Registration extends Component {
+class Profile extends Component {
   state = {
-    username: "",
     password: "",
-    passwordCheck: ""
+    passwordCheck: "",
+    newPassword: ""
   };
 
   constructor(props) {
@@ -29,19 +29,21 @@ class Registration extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleOnSubmit = event => {
-    event.preventDefault();
-
+  handleOnSubmit = e => {
+    e.preventDefault();
     if (
-      this.state.passwordCheck === this.state.password &&
-      this.state.username.trim() !== ""
-    ) {
-      const response = this.props.registerUser({
-        username: this.state.username,
+      this.state.newPassword === this.state.passwordCheck &&
+      this.state.newPassword.trim() !== ""
+    )
+      this.props.resetPassword({
+        newPassword: this.state.newPassword,
         password: this.state.password
       });
-      this.props.history.push("/");
-    }
+      this.setState({
+        password: "",
+        passwordCheck: "",
+        newPassword: ""
+      })
   };
 
   render() {
@@ -49,26 +51,22 @@ class Registration extends Component {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className="paper">
-          <Avatar className="avatar">
-            <PersonAddOutlined />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Registration
+          <div className="basic-info">
+            <div>
+              <Avatar className="avatar">
+                <PersonOutlined />
+              </Avatar>
+            </div>
+            <div>
+              <Typography variant="h4">
+                {this.props.user.user.username}
+              </Typography>
+            </div>
+          </div>
+          <Typography component="h1" variant="h6">
+            Reset the password
           </Typography>
           <form className="form" noValidate onSubmit={this.handleOnSubmit}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="Username"
-              name="username"
-              autoComplete="username"
-              value={this.state.username}
-              onChange={this.handleOnChange}
-              autoFocus
-            />
             <TextField
               variant="outlined"
               margin="normal"
@@ -86,8 +84,20 @@ class Registration extends Component {
               margin="normal"
               required
               fullWidth
+              name="newPassword"
+              label="New password"
+              type="password"
+              id="password"
+              value={this.state.newPassword}
+              onChange={this.handleOnChange}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
               name="passwordCheck"
-              label="Repeat password"
+              label="Repeat new password"
               type="password"
               id="passwordCheck"
               value={this.state.passwordCheck}
@@ -100,7 +110,7 @@ class Registration extends Component {
               color="primary"
               className="submit"
             >
-              Register
+              Reset
             </Button>
           </form>
         </div>
@@ -109,12 +119,18 @@ class Registration extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    user: state.userReducer
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
-    registerUser: credentials => {
-      dispatch(registerUser(credentials));
+    resetPassword: password => {
+      dispatch(resetPassword(password));
     }
   };
 };
 
-export default connect(null, mapDispatchToProps)(Registration);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

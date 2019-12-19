@@ -1,0 +1,73 @@
+.item.MuiListItem-root {
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+.item.MuiListItem-root:hover {
+  background-color: rgb(223, 219, 219);
+}
+
+.title {
+  margin: 0;
+  display: block;
+}
+
+.title.MuiTypography-root {
+  overflow-wrap: break-word;
+  width: auto;
+}
+
+.data {
+  flex-flow: column;
+  overflow-x: auto;
+}
+.data > .MuiTypography-root {
+  margin-right: 10px;
+}
+
+.vote {
+  align-self: flex-end;
+  min-width: 6rem;
+}
+
+.vote > * {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  min-width: 1.5rem;
+  text-align: center;
+}
+
+.vote >*> svg:hover {
+  cursor: pointer;
+}
+
+.vote-item > .MuiButtonBase-root {
+  word-spacing: 10px;
+}
+
+.add-form {
+  justify-self: center;
+  margin: auto;
+  width: 50%;
+  padding: 2rem;
+  background-color: lavender;
+  border-color: #3f51b5;
+  border-radius: 5px;
+}
+
+.add-form > * > *{
+  margin-top: 10px;
+}
+
+.list-title{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 1px solid #3f51b5;
+}
+
+.list-title:last-child{
+  align-self: flex-end;
+}

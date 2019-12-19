@@ -1,3 +1,7 @@
+.wrapper{
+  margin-bottom: 2rem;
+}
+
 .navigation-buttons a,
 .navigation-buttons button {
   text-decoration: none;
