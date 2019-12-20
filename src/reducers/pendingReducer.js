@@ -1,5 +1,7 @@
 const pendingReducer = (state = {}, action) => {
   const { type } = action;
+  if(type == "RESET_PENDING")
+    return {};
   const actionName = type
     .split("_")
     .slice(0, -1)

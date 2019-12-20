@@ -14,7 +14,7 @@ import "./topquestions.css";
 export const TopQuestionsList = props => {
   const data = props.hotQuestions
     ? props.hotQuestions.map(q => (
-        <TableRow>
+        <TableRow key={q._id}>
           <TableCell><Link href={"/question/"+q._id}>{q.title}</Link></TableCell>
           <TableCell align="right">{q.numberOfUpVotes}</TableCell>
           <TableCell align="right">{q.numberOfDownVotes}</TableCell>

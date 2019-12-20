@@ -37,10 +37,10 @@ class QuestionList extends Component {
     const questions = this.props.questions;
     let index = 0;
     const data = questions
-      ? questions.questions.map(q => <QuestionListItem index={index++} question={q} />)
+      ? questions.questions.map(q => <QuestionListItem key={q._id} index={index++} question={q} />)
       : [];
     return (
-      <Container minWidht="75%">
+      <Container>
         <CssBaseline />
         <div className="list-title">
           <div>

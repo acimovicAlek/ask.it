@@ -11,6 +11,7 @@ import { PersonAddOutlined } from "@material-ui/icons";
 import { connect } from "react-redux";
 
 import { registerUser } from "../../actions/userActions";
+import { reset } from "../../actions/pendingActions";
 
 import "./registration.css";
 
@@ -40,11 +41,16 @@ class Registration extends Component {
         username: this.state.username,
         password: this.state.password
       });
-      this.props.history.push("/");
     }
   };
 
   render() {
+    const reqStatus = this.props.pending.USER_REGISTER;
+    console.log(reqStatus);
+    if (reqStatus && !reqStatus.pending && reqStatus.success) {
+      this.props.reset();
+      this.props.history.push("/");
+    }
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -113,8 +119,17 @@ const mapDispatchToProps = dispatch => {
   return {
     registerUser: credentials => {
       dispatch(registerUser(credentials));
+    },
+    reset: () => {
+      dispatch(reset());
     }
   };
 };
 
-export default connect(null, mapDispatchToProps)(Registration);
+const mapStateToProps = state => {
+  return {
+    pending: state.pendingReducer
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Registration);

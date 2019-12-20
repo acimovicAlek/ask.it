@@ -12,7 +12,7 @@ import "./topusers.css"
 
 export const TopUsersList = props => {
   const data = props.topUsers?props.topUsers.map(q => (
-    <TableRow>
+    <TableRow key={q._id}>
       <TableCell>{q.username}</TableCell>
       <TableCell align="right">{q.numberOfAnswers}</TableCell>
     </TableRow>

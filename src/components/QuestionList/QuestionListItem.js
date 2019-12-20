@@ -35,10 +35,10 @@ class QuestionListItem extends Component {
 
   render() {
     return (
-      <ListItem className="item" divider="true">
+      <ListItem className="item" divider={true}>
         <div className="data">
           <Link href={"/question/" + this.props.question._id}>
-          <Typography overflowWrap="break-word" className="title" variant="h6">
+          <Typography className="title" variant="h6">
             {this.props.question.title}
           </Typography>
           </Link>
