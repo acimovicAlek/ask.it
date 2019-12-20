@@ -20,7 +20,7 @@ class Navigation extends Component {
         <Toolbar>
           <Grid justify="space-between" container>
             <Grid item>
-              <Typography variant="h6">Ask.it</Typography>
+              <Typography variant="h6"><NavLink to="/" className="logo">Ask.it</NavLink></Typography>
             </Grid>
             <Grid item>
               {this.props.user.user? (

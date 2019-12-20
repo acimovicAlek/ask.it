@@ -16,3 +16,8 @@
 {
   color: #be7676;
 }
+
+.logo{
+  text-decoration: none;
+  color: inherit;
+}

@@ -24,6 +24,7 @@ class AddQuestion extends Component {
   handleOnSubmit = e => {
     e.preventDefault();
     this.props.createQuestion({...this.state});
+    this.props.onClose();
   }
 
   render() {
