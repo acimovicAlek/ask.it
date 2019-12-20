@@ -19,23 +19,24 @@ const registerUser = user => {
           error.status = 409;
           error.message = "User exists.";
           reject(error);
-        }
-        bcrypt.hash(user.password, 10, (err, hash) => {
-          if (err) reject(err);
+          return;
+        } else
+          bcrypt.hash(user.password, 10, (err, hash) => {
+            if (err) reject(err);
 
-          const newUser = new User({
-            _id: mongoose.Types.ObjectId(),
-            username: user.username,
-            password: hash
+            const newUser = new User({
+              _id: mongoose.Types.ObjectId(),
+              username: user.username,
+              password: hash
+            });
+
+            newUser
+              .save()
+              .then(result => {
+                resolve(result);
+              })
+              .catch(err => reject(err));
           });
-
-          newUser
-            .save()
-            .then(result => {
-              resolve(result);
-            })
-            .catch(err => reject(err));
-        });
       })
       .catch(err => reject(err));
   });
