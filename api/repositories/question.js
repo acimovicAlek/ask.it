@@ -110,7 +110,7 @@ const vote = (id, vote, userId) => {
 const getHot = (page, userId) => {
   return new Promise((resolve, reject) => {
     Question.find()
-      .sort({ numberOfUpVotes: "asc", numberOfDownVotes:"desc" })
+      .sort({ numberOfUpVotes: "desc", numberOfDownVotes:"asc" })
       .select("_id title question user numberOfUpVotes numberOfDownVotes")
       .populate("user", "-passowrd")
       .skip((page - 1) * 20)
