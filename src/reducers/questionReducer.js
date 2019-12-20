@@ -14,9 +14,14 @@ const questionReducer = (state = initialState, action) => {
   let numberOfUpVotes;
   let numberOfDownVotes;
   switch (action.type) {
+    case "CREATE_QUESTIONS_FULFILLED":
+      return Object.assign({},state,{
+        ...state,
+        questions: [{...action.data, user: action.data.user}, ...state.questions]
+      });
+      break;
     case "GET_QUESTIONS_PAGE_FULFILLED":
       const questionsPage = action.payload.data.questions;
-      console.log("Log questionsPage :", questionsPage);
       if (action.payload.data.pageNumber == 1) {
         state.pageNumber = 1;
         state.questions = [];

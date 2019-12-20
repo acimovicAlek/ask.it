@@ -12,7 +12,6 @@ import {
 import "./topquestions.css";
 
 export const TopQuestionsList = props => {
-  console.log(props.hotQuestions);
   const data = props.hotQuestions
     ? props.hotQuestions.map(q => (
         <TableRow>

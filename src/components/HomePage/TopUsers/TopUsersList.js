@@ -11,7 +11,6 @@ import {
 import "./topusers.css"
 
 export const TopUsersList = props => {
-  console.log(props);
   const data = props.topUsers?props.topUsers.map(q => (
     <TableRow>
       <TableCell>{q.username}</TableCell>

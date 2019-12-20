@@ -35,7 +35,6 @@ class QuestionList extends Component {
 
   render() {
     const questions = this.props.questions;
-    console.log("Questions: ", questions);
     let index = 0;
     const data = questions
       ? questions.questions.map(q => <QuestionListItem index={index++} question={q} />)

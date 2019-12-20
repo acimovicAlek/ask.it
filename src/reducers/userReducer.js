@@ -25,7 +25,6 @@ const userReducer = (state = {
       break;
     case "GET_TOP_USERS_FULFILLED":
       const topUsers = action.payload.data.topUsers;
-      console.log(action.payload.data);
       return Object.assign({}, state, { ...state, topUsers: [...topUsers] });
       break;
     default:

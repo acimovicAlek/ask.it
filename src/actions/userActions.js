@@ -29,7 +29,6 @@ export function resetPassword(password) {
 }
 
 export function registerUser(credentials) {
-  console.log("Credentials log: ", credentials);
   return {
     type: "USER_REGISTER",
     payload: axios(env.NODE_ENV.url + "/users", {
